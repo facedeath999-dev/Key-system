@@ -1,273 +1,271 @@
---[[ Protected by Lua Guard ]]
-
 -- ========== KEY SYSTEM ==========
-local _IIIIllIIIl = "https://raw.githubusercontent.com/facedeath999-dev/Key-system/refs/heads/main/Key.txt?time=" .. os.time()
+local KEY_URL = "https://raw.githubusercontent.com/facedeath999-dev/Key-system/refs/heads/main/Key.txt?time=" .. os.time()
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-local _llIlIlllIl = Players.LocalPlayer
-local _IlIllIlIlI = _llIlIlllIl:WaitForChild("PlayerGui")
+local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
 
-local _IIIIIIIIlI
-local _IlIllllllI = pcall(function()
-    _IIIIIIIIlI = game:HttpGet(_IIIIllIIIl)
+local validKey
+local success = pcall(function()
+    validKey = game:HttpGet(KEY_URL)
 end)
 
-if not _IlIllllllI or not _IIIIIIIIlI then
+if not success or not validKey then
     warn("Failed to load key.")
     return
 end
 
-_IIIIIIIIlI = string.gsub(_IIIIIIIIlI, "%s+", "")
+validKey = string.gsub(validKey, "%s+", "")
 
 -- Key GUI
-local _IlIIIIIllI = Instance.new("ScreenGui", _IlIllIlIlI)
-_IlIIIIIllI.ResetOnSpawn = false
+local KeyGui = Instance.new("ScreenGui", playerGui)
+KeyGui.ResetOnSpawn = false
 
-local _IIlllIIlII = Instance.new("Frame", _IlIIIIIllI)
-_IIlllIIlII.Size = UDim2.new(0, 220, 0, 130)
-_IIlllIIlII.Position = UDim2.new(0.05, 0, 0.2, 0)
-_IIlllIIlII.BackgroundColor3 = Color3.fromRGB(30,30,30)
-_IIlllIIlII.Active = true
-_IIlllIIlII.Draggable = true
-Instance.new("UICorner", _IIlllIIlII)
+local KFrame = Instance.new("Frame", KeyGui)
+KFrame.Size = UDim2.new(0, 220, 0, 130)
+KFrame.Position = UDim2.new(0.05, 0, 0.2, 0)
+KFrame.BackgroundColor3 = Color3.fromRGB(30,30,30)
+KFrame.Active = true
+KFrame.Draggable = true
+Instance.new("UICorner", KFrame)
 
-local _lIIIIIIlll = Instance.new("TextLabel", _IIlllIIlII)
-_lIIIIIIlll.Size = UDim2.new(1, -10, 0, 24)
-_lIIIIIIlll.Position = UDim2.new(0, 8, 0, 0)
-_lIIIIIIlll.BackgroundTransparency = 1
-_lIIIIIIlll.Text = "🔑 AoE Key"
-_lIIIIIIlll.Font = Enum.Font.GothamBold
-_lIIIIIIlll.TextSize = 14
-_lIIIIIIlll.TextXAlignment = Enum.TextXAlignment.Left
-_lIIIIIIlll.TextColor3 = Color3.new(1,1,1)
+local KTitle = Instance.new("TextLabel", KFrame)
+KTitle.Size = UDim2.new(1, -10, 0, 24)
+KTitle.Position = UDim2.new(0, 8, 0, 0)
+KTitle.BackgroundTransparency = 1
+KTitle.Text = "🔑 AoE Key"
+KTitle.Font = Enum.Font.GothamBold
+KTitle.TextSize = 14
+KTitle.TextXAlignment = Enum.TextXAlignment.Left
+KTitle.TextColor3 = Color3.new(1,1,1)
 
-local _lIIlIIllIl = Instance.new("TextBox", _IIlllIIlII)
-_lIIlIIllIl.Size = UDim2.new(0.9, 0, 0, 24)
-_lIIlIIllIl.Position = UDim2.new(0.05, 0, 0, 40)
-_lIIlIIllIl.PlaceholderText = "Enter key..."
-_lIIlIIllIl.Text = ""
-_lIIlIIllIl.Font = Enum.Font.Gotham
-_lIIlIIllIl.TextSize = 12
-_lIIlIIllIl.BackgroundColor3 = Color3.fromRGB(55,55,55)
-_lIIlIIllIl.TextColor3 = Color3.new(1,1,1)
-Instance.new("UICorner", _lIIlIIllIl)
+local KBox = Instance.new("TextBox", KFrame)
+KBox.Size = UDim2.new(0.9, 0, 0, 24)
+KBox.Position = UDim2.new(0.05, 0, 0, 40)
+KBox.PlaceholderText = "Enter key..."
+KBox.Text = ""
+KBox.Font = Enum.Font.Gotham
+KBox.TextSize = 12
+KBox.BackgroundColor3 = Color3.fromRGB(55,55,55)
+KBox.TextColor3 = Color3.new(1,1,1)
+Instance.new("UICorner", KBox)
 
-local _IlIlllllll = Instance.new("TextButton", _IIlllIIlII)
-_IlIlllllll.Size = UDim2.new(0.9, 0, 0, 24)
-_IlIlllllll.Position = UDim2.new(0.05, 0, 0, 75)
-_IlIlllllll.Text = "Verify Key"
-_IlIlllllll.Font = Enum.Font.Gotham
-_IlIlllllll.TextSize = 12
-_IlIlllllll.BackgroundColor3 = Color3.fromRGB(60,60,60)
-_IlIlllllll.TextColor3 = Color3.new(1,1,1)
-Instance.new("UICorner", _IlIlllllll)
+local KBtn = Instance.new("TextButton", KFrame)
+KBtn.Size = UDim2.new(0.9, 0, 0, 24)
+KBtn.Position = UDim2.new(0.05, 0, 0, 75)
+KBtn.Text = "Verify Key"
+KBtn.Font = Enum.Font.Gotham
+KBtn.TextSize = 12
+KBtn.BackgroundColor3 = Color3.fromRGB(60,60,60)
+KBtn.TextColor3 = Color3.new(1,1,1)
+Instance.new("UICorner", KBtn)
 
-local _llIllllllI = Instance.new("TextLabel", _IIlllIIlII)
-_llIllllllI.Size = UDim2.new(1,0,0,20)
-_llIllllllI.Position = UDim2.new(0,0,1,-20)
-_llIllllllI.BackgroundTransparency = 1
-_llIllllllI.Text = ""
-_llIllllllI.Font = Enum.Font.Gotham
-_llIllllllI.TextSize = 11
-_llIllllllI.TextColor3 = Color3.fromRGB(200,60,60)
+local KStatus = Instance.new("TextLabel", KFrame)
+KStatus.Size = UDim2.new(1,0,0,20)
+KStatus.Position = UDim2.new(0,0,1,-20)
+KStatus.BackgroundTransparency = 1
+KStatus.Text = ""
+KStatus.Font = Enum.Font.Gotham
+KStatus.TextSize = 11
+KStatus.TextColor3 = Color3.fromRGB(200,60,60)
 
-local _lIIlIIIlll = false
+local verified = false
 
-_IlIlllllll.MouseButton1Click:Connect(function()
-    local _llIllIlllI = string.gsub(_lIIlIIllIl.Text, "%s+", "")
-    if _llIllIlllI == _IIIIIIIIlI then
-        _llIllllllI.Text = "Key accepted"
-        _llIllllllI.TextColor3 = Color3.fromRGB(80,200,120)
+KBtn.MouseButton1Click:Connect(function()
+    local input = string.gsub(KBox.Text, "%s+", "")
+    if input == validKey then
+        KStatus.Text = "Key accepted"
+        KStatus.TextColor3 = Color3.fromRGB(80,200,120)
         task.wait(0.3)
-        _lIIlIIIlll = true
-        _IlIIIIIllI:Destroy()
+        verified = true
+        KeyGui:Destroy()
     else
-        _llIllllllI.Text = "Invalid key"
-        _llIllllllI.TextColor3 = Color3.fromRGB(200,60,60)
+        KStatus.Text = "Invalid key"
+        KStatus.TextColor3 = Color3.fromRGB(200,60,60)
     end
 end)
 
-repeat task.wait() until _lIIlIIIlll
+repeat task.wait() until verified
 
 -- ========== SETTINGS ==========
-local _IIIllIllll = 200
-local _IIllIIlIII = 0.03
-local _IlIIIIIIlI = true
+local ATTACK_RANGE = 200
+local ATTACK_INTERVAL = 0.03
+local IGNORE_EVASION = true
 
-local _llIIIllIII = false
-local _llIllIIIII = false
-local _lIIIIlIIII = false
+local IgnorePlayers = false
+local IgnoreNPCs = false
+local IgnoreTraining = false
 
-local _llllllIllI = 16
+local DEFAULT_WALKSPEED = 16
 
 -- ========== CHARACTER ==========
-local function _llIIIIlIII()
-    local _llIlllIlll = _llIlIlllIl.Character or _llIlIlllIl.CharacterAdded:Wait()
-    local _lIlllllIlI = _llIlllIlll:WaitForChild("HumanoidRootPart")
-    local _lIIIllIllI = _llIlllIlll:WaitForChild("Humanoid")
-    return _llIlllIlll, _lIlllllIlI, _lIIIllIllI
+local function waitForCharacter()
+    local char = player.Character or player.CharacterAdded:Wait()
+    local hrp = char:WaitForChild("HumanoidRootPart")
+    local hum = char:WaitForChild("Humanoid")
+    return char, hrp, hum
 end
 
-local _llIlllIlll, root, humanoid = _llIIIIlIII()
+local char, root, humanoid = waitForCharacter()
 
 -- ========== EQUIP ==========
-local _IllIlIllII = ReplicatedStorage:WaitForChild("Events"):WaitForChild("AttackV2")
-local _IIlIlIlIIl = ReplicatedStorage:WaitForChild("Events"):FindFirstChild("WeaponsEvent")
+local attackEvent = ReplicatedStorage:WaitForChild("Events"):WaitForChild("AttackV2")
+local weaponsEvent = ReplicatedStorage:WaitForChild("Events"):FindFirstChild("WeaponsEvent")
 
-local function _IlIlIIllll(c)
+local function hasEquippedTool(c)
     for _, obj in ipairs(c:GetChildren()) do
         if obj:IsA("Tool") then return true end
     end
 end
 
-local function _lIIIIlIIll()
-    for _, t in ipairs(_llIlIlllIl.Backpack:GetChildren()) do
+local function getAnyBackpackTool()
+    for _, t in ipairs(player.Backpack:GetChildren()) do
         if t:IsA("Tool") then return t end
     end
 end
 
-local function _IlllIIlIlI()
-    if not _IIlIlIlIIl then return end
+local function safeEquip()
+    if not weaponsEvent then return end
     task.wait(0.5)
     pcall(function()
-        _IIlIlIlIIl:FireServer("Equip/UnEquip")
+        weaponsEvent:FireServer("Equip/UnEquip")
     end)
     task.wait(0.2)
-    if not _IlIlIIllll(_llIlllIlll) then
-        local _IIIllllllI = _lIIIIlIIll()
-        if _IIIllllllI then
+    if not hasEquippedTool(char) then
+        local tool = getAnyBackpackTool()
+        if tool then
             pcall(function()
-                humanoid:EquipTool(_IIIllllllI)
+                humanoid:EquipTool(tool)
             end)
         end
     end
 end
 
-_IlllIIlIlI()
+safeEquip()
 
-_llIlIlllIl.CharacterAdded:Connect(function()
-    _llIlllIlll, root, humanoid = _llIIIIlIII()
-    task.defer(_IlllIIlIlI)
+player.CharacterAdded:Connect(function()
+    char, root, humanoid = waitForCharacter()
+    task.defer(safeEquip)
 end)
 
 -- ========== TARGET FILTER ==========
-local function _lIIllIIlII(model)
-    if not model or model == _llIlllIlll then return false end
+local function isValidTarget(model)
+    if not model or model == char then return false end
 
-    local _llIlllIllI = Players:GetPlayerFromCharacter(model)
-    local _IlIlIIlIll = model.Name == "TrainingPole"
-    local _IIIlllllll = string.find(model.Name, "NPC")
+    local targetPlayer = Players:GetPlayerFromCharacter(model)
+    local isTraining = model.Name == "TrainingPole"
+    local isNPC = string.find(model.Name, "NPC")
 
-    if _llIlllIllI and _llIIIllIII then return false end
-    if _IIIlllllll and _llIllIIIII then return false end
-    if _IlIlIIlIll and _lIIIIlIIII then return false end
-    if _llIlllIllI and _llIlIlllIl.Team == _llIlllIllI.Team then return false end
+    if targetPlayer and IgnorePlayers then return false end
+    if isNPC and IgnoreNPCs then return false end
+    if isTraining and IgnoreTraining then return false end
+    if targetPlayer and player.Team == targetPlayer.Team then return false end
 
-    local _lIIIllIllI = model:FindFirstChildOfClass("Humanoid")
-    local _lIlllllIlI = model:FindFirstChild("HumanoidRootPart")
-    return _lIIIllIllI and _lIlllllIlI and _lIIIllIllI.Health > 0
+    local hum = model:FindFirstChildOfClass("Humanoid")
+    local hrp = model:FindFirstChild("HumanoidRootPart")
+    return hum and hrp and hum.Health > 0
 end
 
 -- ========== GUI ==========
-local _llIIIlllII = Instance.new("ScreenGui", _IlIllIlIlI)
-_llIIIlllII.ResetOnSpawn = false
+local ScreenGui = Instance.new("ScreenGui", playerGui)
+ScreenGui.ResetOnSpawn = false
 
-local _lIIllIIlIl = Instance.new("Frame", _llIIIlllII)
-_lIIllIIlIl.Size = UDim2.new(0,200,0,230)
-_lIIllIIlIl.Position = UDim2.new(0.05,0,0.2,0)
-_lIIllIIlIl.BackgroundColor3 = Color3.fromRGB(30,30,30)
-_lIIllIIlIl.Active = true
-_lIIllIIlIl.Draggable = true
-Instance.new("UICorner", _lIIllIIlIl)
+local Frame = Instance.new("Frame", ScreenGui)
+Frame.Size = UDim2.new(0,200,0,230)
+Frame.Position = UDim2.new(0.05,0,0.2,0)
+Frame.BackgroundColor3 = Color3.fromRGB(30,30,30)
+Frame.Active = true
+Frame.Draggable = true
+Instance.new("UICorner", Frame)
 
-local _IIllllllII = Instance.new("TextLabel", _lIIllIIlIl)
-_IIllllllII.Size = UDim2.new(1,0,0,24)
-_IIllllllII.BackgroundTransparency = 1
-_IIllllllII.Text = "🔥 AoE 🔥"
-_IIllllllII.Font = Enum.Font.GothamBold
-_IIllllllII.TextColor3 = Color3.new(1,1,1)
-_IIllllllII.TextSize = 14
-_IIllllllII.TextXAlignment = Enum.TextXAlignment.Left
-_IIllllllII.Position = UDim2.new(0,8,0,0)
+local Title = Instance.new("TextLabel", Frame)
+Title.Size = UDim2.new(1,0,0,24)
+Title.BackgroundTransparency = 1
+Title.Text = "🔥 AoE 🔥"
+Title.Font = Enum.Font.GothamBold
+Title.TextColor3 = Color3.new(1,1,1)
+Title.TextSize = 14
+Title.TextXAlignment = Enum.TextXAlignment.Left
+Title.Position = UDim2.new(0,8,0,0)
 
-local _IIIIllllII = Instance.new("TextButton", _lIIllIIlIl)
-_IIIIllllII.Text = "-"
-_IIIIllllII.Size = UDim2.new(0,20,0,18)
-_IIIIllllII.Position = UDim2.new(1,-24,0,3)
-_IIIIllllII.BackgroundColor3 = Color3.fromRGB(60,60,60)
-Instance.new("UICorner", _IIIIllllII)
+local HideBtn = Instance.new("TextButton", Frame)
+HideBtn.Text = "-"
+HideBtn.Size = UDim2.new(0,20,0,18)
+HideBtn.Position = UDim2.new(1,-24,0,3)
+HideBtn.BackgroundColor3 = Color3.fromRGB(60,60,60)
+Instance.new("UICorner", HideBtn)
 
-local _llIIlIIllI = Instance.new("TextButton", _llIIIlllII)
-_llIIlIIllI.Text = "💀"
-_llIIlIIllI.Size = UDim2.new(0,38,0,38)
-_llIIlIIllI.Position = UDim2.new(0.02,0,0.4,0)
-_llIIlIIllI.Visible = false
-_llIIlIIllI.BackgroundColor3 = Color3.fromRGB(40,40,40)
-_llIIlIIllI.Draggable = true
-Instance.new("UICorner", _llIIlIIllI)
+local Skull = Instance.new("TextButton", ScreenGui)
+Skull.Text = "💀"
+Skull.Size = UDim2.new(0,38,0,38)
+Skull.Position = UDim2.new(0.02,0,0.4,0)
+Skull.Visible = false
+Skull.BackgroundColor3 = Color3.fromRGB(40,40,40)
+Skull.Draggable = true
+Instance.new("UICorner", Skull)
 
-_IIIIllllII.MouseButton1Click:Connect(function()
-    _lIIllIIlIl.Visible = false
-    _llIIlIIllI.Visible = true
+HideBtn.MouseButton1Click:Connect(function()
+    Frame.Visible = false
+    Skull.Visible = true
 end)
 
-_llIIlIIllI.MouseButton1Click:Connect(function()
-    _lIIllIIlIl.Visible = true
-    _llIIlIIllI.Visible = false
+Skull.MouseButton1Click:Connect(function()
+    Frame.Visible = true
+    Skull.Visible = false
 end)
 
-local function _IIIIllIlll(text,y,callback,default)
-    local _IIllIlIlll = default
-    local _llIllIIIIl = Instance.new("TextButton", _lIIllIIlIl)
-    _llIllIIIIl.Size = UDim2.new(0.9,0,0,20)
-    _llIllIIIIl.Position = UDim2.new(0.05,0,0,y)
-    _llIllIIIIl.BackgroundColor3 = Color3.fromRGB(55,55,55)
-    _llIllIIIIl.Font = Enum.Font.Gotham
-    _llIllIIIIl.TextSize = 12
-    Instance.new("UICorner", _llIllIIIIl)
+local function createToggle(text,y,callback,default)
+    local state = default
+    local btn = Instance.new("TextButton", Frame)
+    btn.Size = UDim2.new(0.9,0,0,20)
+    btn.Position = UDim2.new(0.05,0,0,y)
+    btn.BackgroundColor3 = Color3.fromRGB(55,55,55)
+    btn.Font = Enum.Font.Gotham
+    btn.TextSize = 12
+    Instance.new("UICorner", btn)
 
-    local function _lIllllIlII()
-        _llIllIIIIl.Text = text.." : "..(_IIllIlIlll and "☑" or "☐")
-        callback(_IIllIlIlll)
+    local function update()
+        btn.Text = text.." : "..(state and "☑" or "☐")
+        callback(state)
     end
 
-    _llIllIIIIl.MouseButton1Click:Connect(function()
-        _IIllIlIlll = not _IIllIlIlll
-        _lIllllIlII()
+    btn.MouseButton1Click:Connect(function()
+        state = not state
+        update()
     end)
 
-    _lIllllIlII()
+    update()
 end
 
-local _lllllIIIll = false
-_IIIIllIlll("Auto Attack",32,function(v)
-    _lllllIIIll = v
+local attackEnabled = false
+createToggle("Auto Attack",32,function(v)
+    attackEnabled = v
 end,false)
 
-_IIIIllIlll("Ignore Players",58,function(v)
-    _llIIIllIII = v
+createToggle("Ignore Players",58,function(v)
+    IgnorePlayers = v
 end,false)
 
-_IIIIllIlll("Ignore NPC",82,function(v)
-    _llIllIIIII = v
+createToggle("Ignore NPC",82,function(v)
+    IgnoreNPCs = v
 end,false)
 
-_IIIIllIlll("Ignore Training",106,function(v)
-    _lIIIIlIIII = v
+createToggle("Ignore Training",106,function(v)
+    IgnoreTraining = v
 end,false)
 
-local _lllIIllIII = false
-_IIIIllIlll("WalkSpeed 30",132,function(v)
-    _lllIIllIII = v
-    humanoid.WalkSpeed = v and 30 or _llllllIllI
+local walkSpeedEnabled = false
+createToggle("WalkSpeed 30",132,function(v)
+    walkSpeedEnabled = v
+    humanoid.WalkSpeed = v and 30 or DEFAULT_WALKSPEED
 end,false)
 
 task.spawn(function()
     while true do
         task.wait(0.1)
-        if _lllIIllIII and humanoid.WalkSpeed ~= 30 then
+        if walkSpeedEnabled and humanoid.WalkSpeed ~= 30 then
             humanoid.WalkSpeed = 30
         end
     end
@@ -276,27 +274,27 @@ end)
 -- ========== ATTACK LOOP ==========
 task.spawn(function()
     while true do
-        task.wait(_IIllIIlIII)
-        if not _lllllIIIll then continue end
+        task.wait(ATTACK_INTERVAL)
+        if not attackEnabled then continue end
 
         if humanoid.Health <= 0 then
-            _llIlllIlll, root, humanoid = _llIIIIlIII()
-            _IlllIIlIlI()
+            char, root, humanoid = waitForCharacter()
+            safeEquip()
             continue
         end
 
-        local _IIlIIlIIlI = workspace:FindFirstChild("Characters")
-        if not _IIlIIlIIlI then continue end
+        local container = workspace:FindFirstChild("Characters")
+        if not container then continue end
 
-        for _, t in ipairs(_IIlIIlIIlI:GetChildren()) do
-            if _lIIllIIlII(t) then
-                local _lIIIlIIllI = t:FindFirstChild("HumanoidRootPart")
-                if _lIIIlIIllI and (root.Position - _lIIIlIIllI.Position).Magnitude <= _IIIllIllll then
+        for _, t in ipairs(container:GetChildren()) do
+            if isValidTarget(t) then
+                local thrp = t:FindFirstChild("HumanoidRootPart")
+                if thrp and (root.Position - thrp.Position).Magnitude <= ATTACK_RANGE then
                     pcall(function()
-                        if _IlIIIIIIlI then
-                            _IllIlIllII:FireServer(2,1,t,{IgnoreEvasion=true})
+                        if IGNORE_EVASION then
+                            attackEvent:FireServer(2,1,t,{IgnoreEvasion=true})
                         else
-                            _IllIlIllII:FireServer(2,1,t)
+                            attackEvent:FireServer(2,1,t)
                         end
                     end)
                 end
